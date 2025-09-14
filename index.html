@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmission Transport Scolaire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="text"], 
+        input[type="date"], 
+        input[type="time"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, 
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e1e8ed;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .preview {
+            background: #f8f9fa;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+            border: 1px solid #c3e6cb;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .col {
+                min-width: unset;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            button {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Transmission Transport Scolaire</h1>
+        <p class="subtitle">Formulaire pour conducteurs d'enfants en situation de handicap</p>
+        
+        <form id="transmissionForm">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="date">📅 Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="heure">🕒 Heure</label>
+                        <input type="time" id="heure" name="heure" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="conducteur">👤 Nom du conducteur</label>
+                        <input type="text" id="conducteur" name="conducteur" placeholder="Votre nom" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="trajet">🚐 Trajet</label>
+                        <select id="trajet" name="trajet" required>
+                            <option value="">Sélectionner...</option>
+                            <option value="Aller">Aller</option>
+                            <option value="Retour">Retour</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="enfants">👶 Enfant(s) concerné(s)</label>
+                <input type="text" id="enfants" name="enfants" placeholder="Noms des enfants" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type">📝 Type d'événement</label>
+                <select id="type" name="type" required>
+                    <option value="">Sélectionner...</option>
+                    <option value="Incident">Incident</option>
+                    <option value="Comportement">Comportement particulier</option>
+                    <option value="Information">Information générale</option>
+                    <option value="Retard">Retard</option>
+                    <option value="Absence">Absence</option>
+                    <option value="Médical">Situation médicale</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">📄 Description détaillée</label>
+                <textarea id="description" name="description" placeholder="Décrivez en détail la situation, les actions prises, les observations..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="actions">⚡ Actions entreprises</label>
+                <textarea id="actions" name="actions" placeholder="Actions prises, personnes contactées, mesures appliquées..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="btn-secondary" onclick="previsualiser()">
+                    <span class="icon">👁️</span>Prévisualiser
+                </button>
+                <button type="button" class="btn-primary" onclick="copierTransmission()">
+                    <span class="icon">📱</span>Copier pour SMS
+                </button>
+            </div>
+        </form>
+
+        <div id="preview" class="preview"></div>
+        <div id="successMessage" class="success-message"></div>
+    </div>
+
+    <script>
+        // Définir la date et l'heure actuelles par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const dateInput = document.getElementById('date');
+            const heureInput = document.getElementById('heure');
+            
+            // Format de date YYYY-MM-DD
+            const today = now.toISOString().split('T')[0];
+            dateInput.value = today;
+            
+            // Format d'heure HH:MM
+            const currentTime = now.toTimeString().slice(0, 5);
+            heureInput.value = currentTime;
+        });
+
+        function genererTransmission() {
+            const formData = new FormData(document.getElementById('transmissionForm'));
+            const data = Object.fromEntries(formData);
+            
+            // Formatage de la date en français
+            const dateObj = new Date(data.date);
+            const dateFormatee = dateObj.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            let transmission = `🚐 TRANSMISSION TRANSPORT SCOLAIRE 🚐\n\n`;
+            transmission += `📅 Date : ${dateFormatee}\n`;
+            transmission += `🕒 Heure : ${data.heure}\n`;
+            transmission += `👤 Conducteur : ${data.conducteur}\n`;
+            transmission += `🚐 Trajet : ${data.trajet}\n`;
+            transmission += `👶 Enfant(s) : ${data.enfants}\n`;
+            transmission += `📝 Type : ${data.type}\n\n`;
+            transmission += `📄 DESCRIPTION :\n${data.description}\n\n`;
+            
+            if (data.actions && data.actions.trim()) {
+                transmission += `⚡ ACTIONS ENTREPRISES :\n${data.actions}\n\n`;
+            }
+            
+            transmission += `---\nTransmission générée le ${new Date().toLocaleString('fr-FR')}`;
+            
+            return transmission;
+        }
+
+        function previsualiser() {
+            const transmission = genererTransmission();
+            const preview = document.getElementById('preview');
+            preview.textContent = transmission;
+            preview.style.display = 'block';
+            
+            // Scroll vers la prévisualisation
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function copierTransmission() {
+            const form = document.getElementById('transmissionForm');
+            
+            // Vérifier si le formulaire est valide
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const transmission = genererTransmission();
+            const successMessage = document.getElementById('successMessage');
+            
+            try {
+                // Vérifier si l'API Clipboard est disponible
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(transmission);
+                    successMessage.innerHTML = '✅ Transmission copiée ! Collez dans votre application de messagerie.';
+                } else {
+                    // Méthode alternative pour les environnements non-sécurisés
+                    const textArea = document.createElement('textarea');
+                    textArea.value = transmission;
+                    textArea.style.position = 'fixed';
+                    textArea.style.left = '-999999px';
+                    textArea.style.top = '-999999px';
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    
+                    try {
+                        document.execCommand('copy');
+                        successMessage.innerHTML = '✅ Transmission copiée ! Collez dans votre application de messagerie.';
+                    } catch (err) {
+                        throw new Error('Copie manuelle requise');
+                    } finally {
+                        document.body.removeChild(textArea);
+                    }
+                }
+                
+                successMessage.style.display = 'block';
+                
+                // Sur mobile, essayer d'ouvrir l'application de messagerie
+                if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    setTimeout(() => {
+                        const encodedText = encodeURIComponent(transmission);
+                        // Essayer d'ouvrir l'application SMS par défaut
+                        window.location.href = `sms:?body=${encodedText}`;
+                    }, 1000);
+                }
+                
+                // Cacher le message après 5 secondes
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                
+            } catch (err) {
+                // Si la copie automatique échoue, afficher le texte pour copie manuelle
+                successMessage.innerHTML = '⚠️ Veuillez copier manuellement le texte ci-dessous :';
+                successMessage.style.display = 'block';
+                previsualiser();
+            }
+        }
+
+        // Sauvegarder automatiquement les données du formulaire
+        document.getElementById('transmissionForm').addEventListener('input', function(e) {
+            localStorage.setItem('transmission_' + e.target.name, e.target.value);
+        });
+
+        // Restaurer les données sauvegardées au chargement
+        window.addEventListener('load', function() {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                const savedValue = localStorage.getItem('transmission_' + input.name);
+                if (savedValue && input.name !== 'date' && input.name !== 'heure') {
+                    input.value = savedValue;
+                }
+            });
+        });
+    </script>
+</body> 
+</html>
